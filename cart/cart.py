@@ -50,7 +50,7 @@ class Cart:
         """
         product_ids = self.cart.keys() # Получаем ID всех товаров из корзины:
         # get the product objects and add them to the cart
-        products = Products.objects.filter(id__in=product_ids) # → Получаем реальные объекты Product из таблицы, соответствующие этим ID.
+        products = Product.objects.filter(id__in=product_ids) # → Получаем реальные объекты Product из таблицы, соответствующие этим ID.
         cart = self.cart.copy() # Делаем копию корзины: → Чтобы не изменять оригинал (на всякий случай).
         for product in products: # Добавляем к каждой позиции в корзине сам объект товара:
             cart[str(product.id)]['product'] = product
@@ -65,6 +65,7 @@ class Cart:
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             yield item
+            
     def __len__(self):
         """
         Count all items in the cart.
